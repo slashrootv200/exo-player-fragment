@@ -31,7 +31,7 @@ ext {
   siteUrl = 'https://github.com/slashrootv200/exo-player-fragment'
   gitUrl = 'https://github.com/slashrootv200/exo-player-fragment.git'
 
-  libraryVersion = '0.0.1'
+  libraryVersion = '0.0.2'
 
   developerId = 'slashrootv200'
   developerName = 'Pratap Patil'
