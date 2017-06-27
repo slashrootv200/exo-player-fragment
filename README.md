@@ -13,14 +13,14 @@ Note: The `ExoPlayerFragmanet` extends support [Fragment.java](https://developer
 <dependency>
   <groupId>com.github.slashrootv200</groupId>
   <artifactId>exo-player-fragment-lib</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
   <type>pom</type>
 </dependency>
 ```
 
 ### gradle
 ```groovy
-compile 'com.github.slashrootv200:exo-player-fragment-lib:0.0.2'
+compile 'com.github.slashrootv200:exo-player-fragment-lib:0.0.3'
 ```
 
 Add the maven url just below the `apply plugin` line
@@ -72,4 +72,4 @@ If you do not have any Base Activity class then you can also use `BaseExoPlayerA
 1. `ExoPlayerFragment.newInstance(Uri uri, int dialogTheme)`-> dialogTheme = theme resource Id for the dialogs created for track selection 
 1. `ExoPlayerFragment.newInstance(Uri uri, String videoTitle, int dialogTheme)`-> videoTitle = video title and dialogTheme = theme resource Id for the dialogs created for track selection 
 
-Instead of passing `int dialogTheme` you can also override theme by name `AlertDialogCustom` in your application's `styles.xml` to override the dialog theme
+Instead of passing `int dialogTheme` you can also override theme by name `ExoPlayerFragmentTrackSelectionDialogTheme` in your application's `styles.xml` to override the dialog theme
