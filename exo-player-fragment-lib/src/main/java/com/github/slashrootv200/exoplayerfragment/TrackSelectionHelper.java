@@ -54,7 +54,7 @@ final class TrackSelectionHelper implements View.OnClickListener, DialogInterfac
     this.selector = selector;
     this.adaptiveTrackSelectionFactory = adaptiveTrackSelectionFactory;
     if (trackSelectionDialogTheme == -1) {
-      this.trackSelectionDialogTheme = R.style.AlertDialogCustom;
+      this.trackSelectionDialogTheme = R.style.ExoPlayerFragmentTrackSelectionDialogTheme;
     } else {
       this.trackSelectionDialogTheme = trackSelectionDialogTheme;
     }
