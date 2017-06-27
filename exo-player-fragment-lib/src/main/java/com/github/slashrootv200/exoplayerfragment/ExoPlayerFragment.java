@@ -20,9 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -96,22 +93,14 @@ public class ExoPlayerFragment extends Fragment
     DEFAULT_COOKIE_MANAGER.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
   }
 
-  @BindView(R2.id.player_view)
-  SimpleExoPlayerView simpleExoPlayerView;
-  @BindView(R2.id.controls_root)
-  LinearLayout debugRootView;
-  @BindView(R2.id.retry_button)
-  Button retryButton;
-  @BindView(R2.id.root)
-  View rootView;
-  @BindView(R2.id.f_exo_error_tv)
-  TextView mErrorTv;
-  @BindView(R2.id.f_exo_progress_bar)
-  ProgressBar mProgressBar;
-  @BindView(R2.id.exo_full_screen)
-  ImageButton mFullscreenIb;
-  @BindView(R2.id.video_title)
-  TextView mVideoTitleTv;
+  private SimpleExoPlayerView simpleExoPlayerView;
+  private LinearLayout debugRootView;
+  private Button retryButton;
+  private View rootView;
+  private TextView mErrorTv;
+  private ProgressBar mProgressBar;
+  private ImageButton mFullscreenIb;
+  private TextView mVideoTitleTv;
   private Handler mainHandler;
   private EventLogger eventLogger;
   private DataSource.Factory mediaDataSourceFactory;
@@ -220,6 +209,18 @@ public class ExoPlayerFragment extends Fragment
     return new ExoPlayerFragmentModel();
   }
 
+  private void initView(View v) {
+    simpleExoPlayerView = v.findViewById(R.id.player_view);
+    debugRootView = v.findViewById(R.id.controls_root);
+    retryButton = v.findViewById(R.id.retry_button);
+    rootView = v.findViewById(R.id.root);
+    mErrorTv = v.findViewById(R.id.f_exo_error_tv);
+    mProgressBar = v.findViewById(R.id.f_exo_progress_bar);
+    mFullscreenIb = v.findViewById(R.id.exo_full_screen);
+    mVideoTitleTv = v.findViewById(R.id.video_title);
+    v.findViewById(R.id.exo_full_screen).setOnClickListener(view -> onFullScreenClicked());
+  }
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -252,7 +253,7 @@ public class ExoPlayerFragment extends Fragment
       @Nullable
           Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.fragment_exo_player, container, false);
-    ButterKnife.bind(this, v);
+    initView(v);
     return v;
   }
 
@@ -353,8 +354,7 @@ public class ExoPlayerFragment extends Fragment
     super.onDestroyView();
   }
 
-  @OnClick(R2.id.exo_full_screen)
-  void onFullScreenClicked() {
+  private void onFullScreenClicked() {
     isFullscreen = !isFullscreen;
     if (isFullscreen) {
       mFullscreenIb.setImageResource(R.drawable.ic_fullscreen_exit);

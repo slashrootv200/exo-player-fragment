@@ -14,10 +14,32 @@ repositories {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+apply plugin: 'com.github.dcendents.android-maven'
+
+ext {
+  bintrayRepo = 'maven'
+  bintrayName = 'exo-player-fragment'
+
+  publishedGroupId = 'com.github.slashrootv200'
+  libraryName = 'ExoPlayerFragment'
+  artifact = 'exo-player-fragment'
+
+  libraryDescription = 'Library which contains ExoPlayer(https://github.com/google/ExoPlayer) inside a Fragment, so that it is easier to use on an Activity'
+
+  siteUrl = 'https://github.com/slashrootv200/exo-player-fragment'
+  gitUrl = 'https://github.com/slashrootv200/exo-player-fragment.git'
+
+  libraryVersion = '0.0.1'
+
+  developerId = 'slashrootv200'
+  developerName = 'Pratap Patil'
+  developerEmail = 'slashroot.v200@gmail.com'
+
+  licenseName = 'The Apache Software License, Version 2.0'
+  licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+  allLicenses = ["Apache-2.0"]
+}
 
 retrolambda {
   javaVersion JavaVersion.VERSION_1_7
@@ -56,57 +78,9 @@ dependencies {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
   compile 'com.android.support:appcompat-v7:26.+'
-  compile 'com.jakewharton:butterknife:8.5.1'
-  annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
   compile 'com.google.android.exoplayer:exoplayer:r2.4.2'
   compile 'org.greenrobot:eventbus:3.0.0'
   testCompile 'junit:junit:4.12'
 }
-
-// publishing
-def libraryGroupId = 'com.github.slashrootv200'
-def libraryArtifactId = 'exo-player-fragment'
-def libraryVersion = '0.0.1'
-publishing {
-  publications {
-    aar(MavenPublication) {
-      groupId libraryGroupId
-      version libraryVersion
-      artifactId libraryArtifactId
-
-      artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
-
-      //generate pom nodes for dependencies
-      pom.withXml {
-        def dependenciesNode = asNode().appendNode('dependencies')
-        configurations.compile.allDependencies.each { dependency ->
-          if (dependency.name != 'unspecified') {
-            println "dependency.name = $dependency.name"
-            def dependencyNode = dependenciesNode.appendNode('dependency')
-            dependencyNode.appendNode('groupId', dependency.group)
-            dependencyNode.appendNode('artifactId', dependency.name)
-            dependencyNode.appendNode('version', dependency.version)
-          }
-        }
-      }
-    }
-  }
-}
-
-artifactory {
-  //  contextUrl = 'http://192.168.0.200:8081/artifactory'
-  contextUrl = 'http://192.168.1.223:8081:8081/artifactory'
-  publish {
-    repository {
-      repoKey = 'libs-release-local'
-      username = artifactory_username
-      password = artifactory_password
-    }
-    defaults {
-      publications('aar')
-      publishArtifacts = true
-      properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
-      publishPom = true
-    }
-  }
-}
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
