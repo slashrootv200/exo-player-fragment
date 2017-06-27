@@ -22,16 +22,6 @@ Note: The `ExoPlayerFragmanet` extends support [Fragment.java](https://developer
 ```groovy
 compile 'com.github.slashrootv200:exo-player-fragment-lib:0.0.3'
 ```
-
-Add the maven url just below the `apply plugin` line
-```groovy
-apply plugin: 'com.android.application'
-
-repositories {
-  maven { url 'https://dl.bintray.com/slashroot-v200/exo-player-fragment' }
-}
-```
-
 ## Configuration
 If you don't want the track selection for video, audio, text to be shown on the ExoPlayerFragment then override these boolean resources 
 
