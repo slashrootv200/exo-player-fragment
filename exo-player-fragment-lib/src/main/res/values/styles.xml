@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <style name="AlertDialogCustom" parent="@style/Theme.AppCompat.Dialog">
+  <style name="ExoPlayerFragmentTrackSelectionDialogTheme" parent="@style/Theme.AppCompat.Dialog">
     <item name="colorAccent">#ff5722</item>
   </style>
 </resources>
