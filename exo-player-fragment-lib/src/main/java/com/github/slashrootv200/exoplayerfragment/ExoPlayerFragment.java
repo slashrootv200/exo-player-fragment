@@ -2,12 +2,15 @@ package com.github.slashrootv200.exoplayerfragment;
 
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -85,6 +88,7 @@ public class ExoPlayerFragment extends Fragment
   public static final String URI_LIST_EXTRA = "uri_list";
   public static final String EXTENSION_LIST_EXTRA = "extension_list";
   public static final String EXTRA_VIDEO_TITLE = "EXTRA_VIDEO_TITLE";
+  public static final String EXTRA_DIALOG_THEME = "EXTRA_DIALOG_THEME";
   private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
   private static final CookieManager DEFAULT_COOKIE_MANAGER;
 
@@ -136,24 +140,51 @@ public class ExoPlayerFragment extends Fragment
     return false;
   }
 
-  public static ExoPlayerFragment newInstance(Uri uri) {
-    Log.d(TAG, "entering newInstance with uri=" + uri);
-    Bundle args = new Bundle();
+  private static Bundle setUriInBundle(Bundle args, Uri uri) {
     args.putBoolean(PREFER_EXTENSION_DECODERS, true);
     args.putString(ACTION, ACTION_VIEW);
     args.putParcelable(URI_EXTRA, uri);
-    ExoPlayerFragment f = new ExoPlayerFragment();
-    f.setArguments(args);
-    return f;
+    return args;
+  }
+
+  private static Bundle setTitleInBundle(Bundle args, String videoTitle) {
+    args.putString(EXTRA_VIDEO_TITLE, videoTitle);
+    return args;
+  }
+
+  private static Bundle setDialogThemeInBundle(Bundle args, int dialogTheme) {
+    args.putInt(EXTRA_DIALOG_THEME, dialogTheme);
+    return args;
+  }
+
+  public static ExoPlayerFragment newInstance(Uri uri, String videoTitle, int dialogTheme) {
+    Log.d(TAG, "entering newInstance with uri=" + uri + ",videoTitle=" + videoTitle);
+    Bundle args = new Bundle();
+    setUriInBundle(args, uri);
+    setTitleInBundle(args, videoTitle);
+    setDialogThemeInBundle(args, dialogTheme);
+    return instantiatedAndSetArguments(args);
+  }
+
+  public static ExoPlayerFragment newInstance(Uri uri, int dialogTheme) {
+    Log.d(TAG, "entering newInstance with uri=" + uri);
+    Bundle args = new Bundle();
+    setUriInBundle(args, uri);
+    setDialogThemeInBundle(args, dialogTheme);
+    return instantiatedAndSetArguments(args);
+  }
+
+  public static ExoPlayerFragment newInstance(Uri uri) {
+    Log.d(TAG, "entering newInstance with uri=" + uri);
+    return newInstance(uri, -1);
   }
 
   public static ExoPlayerFragment newInstance(Uri uri, String videoTitle) {
     Log.d(TAG, "entering newInstance with uri=" + uri + ",videoTitle=" + videoTitle);
-    Bundle args = new Bundle();
-    args.putBoolean(PREFER_EXTENSION_DECODERS, true);
-    args.putString(ACTION, ACTION_VIEW);
-    args.putParcelable(URI_EXTRA, uri);
-    args.putString(EXTRA_VIDEO_TITLE, videoTitle);
+    return newInstance(uri, videoTitle, -1);
+  }
+
+  private static ExoPlayerFragment instantiatedAndSetArguments(Bundle args) {
     ExoPlayerFragment f = new ExoPlayerFragment();
     f.setArguments(args);
     return f;
@@ -410,7 +441,8 @@ public class ExoPlayerFragment extends Fragment
       TrackSelection.Factory videoTrackSelectionFactory =
           new AdaptiveTrackSelection.Factory(BANDWIDTH_METER);
       trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-      trackSelectionHelper = new TrackSelectionHelper(trackSelector, videoTrackSelectionFactory);
+      trackSelectionHelper = new TrackSelectionHelper(trackSelector, videoTrackSelectionFactory,
+          getFragmentModel().getDialogTheme());
       lastSeenTrackGroupArray = null;
 
       player = ExoPlayerFactory.newSimpleInstance(renderersFactory, trackSelector);
@@ -768,22 +800,39 @@ public class ExoPlayerFragment extends Fragment
       for (int i = 0; i < mappedTrackInfo.length; i++) {
         TrackGroupArray trackGroups = mappedTrackInfo.getTrackGroups(i);
         if (trackGroups.length != 0) {
-          Button button = new Button(getActivity());
           int label;
           switch (player.getRendererType(i)) {
             case C.TRACK_TYPE_AUDIO:
-              label = R.string.audio;
+              if (getResources().getBoolean(R.bool.exo_fragment_lib_show_audio_selector)) {
+                label = R.string.audio;
+              } else {
+                continue;
+              }
               break;
             case C.TRACK_TYPE_VIDEO:
-              label = R.string.video;
+              if (getResources().getBoolean(R.bool.exo_fragment_lib_show_video_selector)) {
+                label = R.string.video;
+              } else {
+                continue;
+              }
               break;
             case C.TRACK_TYPE_TEXT:
-              label = R.string.text;
+              if (getResources().getBoolean(R.bool.exo_fragment_lib_show_text_selector)) {
+                label = R.string.text;
+              } else {
+                continue;
+              }
               break;
             default:
               continue;
           }
+          Button button = new Button(getActivity());
+          Drawable buttonDrawable =
+              ContextCompat.getDrawable(getContext(), R.drawable.exo_lib_player_translucent_button);
+          buttonDrawable.mutate();
+          button.setBackground(buttonDrawable);
           button.setText(label);
+          button.setTextColor(Color.WHITE);
           button.setTag(i);
           button.setOnClickListener(this);
           debugRootView.addView(button, debugRootView.getChildCount() - 1);
@@ -808,6 +857,7 @@ public class ExoPlayerFragment extends Fragment
 
   private void getDataFromArguments() {
     Bundle args = getArguments();
+    getFragmentModel().setDialogTheme(args.getInt(EXTRA_DIALOG_THEME, -1));
     if (args.containsKey(PREFER_EXTENSION_DECODERS)) {
       getFragmentModel().setPreferExtensionDecoders(
           args.getBoolean(PREFER_EXTENSION_DECODERS, false));

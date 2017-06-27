@@ -27,6 +27,7 @@ public class ExoPlayerFragmentModel implements Parcelable {
   private String action;
   private String[] extensions;
   private UUID drmSchemeUUID;
+  private int dialogTheme;
 
   public ExoPlayerFragmentModel() {
   }
@@ -41,6 +42,15 @@ public class ExoPlayerFragmentModel implements Parcelable {
     this.action = in.readString();
     this.extensions = in.createStringArray();
     this.drmSchemeUUID = (UUID) in.readSerializable();
+    this.dialogTheme = in.readInt();
+  }
+
+  public int getDialogTheme() {
+    return dialogTheme;
+  }
+
+  public void setDialogTheme(int dialogTheme) {
+    this.dialogTheme = dialogTheme;
   }
 
   public boolean isPreferExtensionDecoders() {
@@ -131,5 +141,6 @@ public class ExoPlayerFragmentModel implements Parcelable {
     dest.writeString(this.action);
     dest.writeStringArray(this.extensions);
     dest.writeSerializable(this.drmSchemeUUID);
+    dest.writeInt(this.dialogTheme);
   }
 }

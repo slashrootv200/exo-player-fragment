@@ -2,11 +2,12 @@ package com.github.slashrootv200.exoplayerfragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
+import android.support.v7.app.AlertDialog;
 import android.util.Pair;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,15 +42,22 @@ final class TrackSelectionHelper implements View.OnClickListener, DialogInterfac
   private CheckedTextView enableRandomAdaptationView;
   private CheckedTextView[][] trackViews;
 
+  private int trackSelectionDialogTheme;
+
   /**
    * @param selector The track selector.
    * @param adaptiveTrackSelectionFactory A factory for adaptive {@link TrackSelection}s, or null
    * if the selection helper should not support adaptive tracks.
    */
   public TrackSelectionHelper(MappingTrackSelector selector,
-      TrackSelection.Factory adaptiveTrackSelectionFactory) {
+      TrackSelection.Factory adaptiveTrackSelectionFactory, int trackSelectionDialogTheme) {
     this.selector = selector;
     this.adaptiveTrackSelectionFactory = adaptiveTrackSelectionFactory;
+    if (trackSelectionDialogTheme == -1) {
+      this.trackSelectionDialogTheme = R.style.AlertDialogCustom;
+    } else {
+      this.trackSelectionDialogTheme = trackSelectionDialogTheme;
+    }
   }
 
   private static int[] getTracksAdding(SelectionOverride override, int addedTrack) {
@@ -95,7 +103,8 @@ final class TrackSelectionHelper implements View.OnClickListener, DialogInterfac
     isDisabled = selector.getRendererDisabled(rendererIndex);
     override = selector.getSelectionOverride(rendererIndex, trackGroups);
 
-    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+    AlertDialog.Builder builder =
+        new AlertDialog.Builder(new ContextThemeWrapper(activity, trackSelectionDialogTheme));
     builder.setTitle(title)
         .setView(buildView(builder.getContext()))
         .setPositiveButton(android.R.string.ok, this)
