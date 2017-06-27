@@ -18,14 +18,15 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.github.dcendents.android-maven'
 
 ext {
-  bintrayRepo = 'maven'
+  bintrayRepo = 'exo-player-fragment'
   bintrayName = 'exo-player-fragment'
 
   publishedGroupId = 'com.github.slashrootv200'
   libraryName = 'ExoPlayerFragment'
-  artifact = 'exo-player-fragment'
+  artifact = 'exo-player-fragment-lib'
 
-  libraryDescription = 'Library which contains ExoPlayer(https://github.com/google/ExoPlayer) inside a Fragment, so that it is easier to use on an Activity'
+  libraryDescription =
+      'Library which contains ExoPlayer(https://github.com/google/ExoPlayer) inside a Fragment, so that it is easier to use on an Activity'
 
   siteUrl = 'https://github.com/slashrootv200/exo-player-fragment'
   gitUrl = 'https://github.com/slashrootv200/exo-player-fragment.git'

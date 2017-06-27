@@ -210,14 +210,14 @@ public class ExoPlayerFragment extends Fragment
   }
 
   private void initView(View v) {
-    simpleExoPlayerView = v.findViewById(R.id.player_view);
-    debugRootView = v.findViewById(R.id.controls_root);
-    retryButton = v.findViewById(R.id.retry_button);
+    simpleExoPlayerView = (SimpleExoPlayerView) v.findViewById(R.id.player_view);
+    debugRootView = (LinearLayout) v.findViewById(R.id.controls_root);
+    retryButton = (Button) v.findViewById(R.id.retry_button);
     rootView = v.findViewById(R.id.root);
-    mErrorTv = v.findViewById(R.id.f_exo_error_tv);
-    mProgressBar = v.findViewById(R.id.f_exo_progress_bar);
-    mFullscreenIb = v.findViewById(R.id.exo_full_screen);
-    mVideoTitleTv = v.findViewById(R.id.video_title);
+    mErrorTv = (TextView) v.findViewById(R.id.f_exo_error_tv);
+    mProgressBar = (ProgressBar) v.findViewById(R.id.f_exo_progress_bar);
+    mFullscreenIb = (ImageButton) v.findViewById(R.id.exo_full_screen);
+    mVideoTitleTv = (TextView) v.findViewById(R.id.video_title);
     v.findViewById(R.id.exo_full_screen).setOnClickListener(view -> onFullScreenClicked());
   }
 

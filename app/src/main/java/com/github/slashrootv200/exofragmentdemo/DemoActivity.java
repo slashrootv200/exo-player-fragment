@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import butterknife.ButterKnife;
 import com.github.slashrootv200.exoplayerfragment.BaseExoPlayerActivity;
 import com.github.slashrootv200.exoplayerfragment.ExoErrorEvent;
 import com.github.slashrootv200.exoplayerfragment.ExoPlayerFragment;
@@ -54,7 +53,6 @@ public class DemoActivity extends BaseExoPlayerActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_demo);
-    ButterKnife.bind(this);
     if (savedInstanceState == null) {
       Data data = processIntent();
       Uri videoUri = data.isDataAvailable() ? data.videoUri : Uri.parse(
