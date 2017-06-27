@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 *.iml
 .gradle
 /local.properties
@@ -7,16 +6,12 @@
 /build
 /captures
 .externalNativeBuild
-=======
->>>>>>> fffbe9432ac0625e0f0eff2a0f72ab71c79bfae6
+
+
 # Built application files
 *.apk
 *.ap_
 
-<<<<<<< HEAD
-
-=======
->>>>>>> fffbe9432ac0625e0f0eff2a0f72ab71c79bfae6
 # Files for the ART/Dalvik VM
 *.dex
 
@@ -67,8 +62,4 @@ google-services.json
 # Freeline
 freeline.py
 freeline/
-<<<<<<< HEAD
 freeline_project_description.json
-=======
-freeline_project_description.json
->>>>>>> fffbe9432ac0625e0f0eff2a0f72ab71c79bfae6
