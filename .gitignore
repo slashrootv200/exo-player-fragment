@@ -7,7 +7,7 @@
 /captures
 .externalNativeBuild
 
-
+local.properties
 # Built application files
 *.apk
 *.ap_
