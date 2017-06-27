@@ -72,3 +72,4 @@ If you do not have any Base Activity class then you can also use `BaseExoPlayerA
 1. `ExoPlayerFragment.newInstance(Uri uri, int dialogTheme)`-> dialogTheme = theme resource Id for the dialogs created for track selection 
 1. `ExoPlayerFragment.newInstance(Uri uri, String videoTitle, int dialogTheme)`-> videoTitle = video title and dialogTheme = theme resource Id for the dialogs created for track selection 
 
+Instead of passing `int dialogTheme` you can also override theme by name `AlertDialogCustom` in your application's `styles.xml` to override the dialog theme
