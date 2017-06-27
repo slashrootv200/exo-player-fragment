@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout
+    android:id="@+id/root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:keepScreenOn="true"
+>
+  <!--simple exo player-->
+  <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+      android:id="@+id/player_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:controller_layout_id="@layout/my_exo_playback_control_view"
+      app:hide_on_touch="true"
+  />
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+  >
+    <!--controls root-->
+    <LinearLayout
+        android:id="@+id/controls_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible"
+    >
+      <!--retry button-->
+      <Button
+          android:id="@+id/retry_button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/retry"
+          android:textSize="12sp"
+          android:visibility="gone"
+          tools:visibility="visible"
+      />
+    </LinearLayout>
+  </LinearLayout>
+  <!--error tv-->
+  <TextView
+      android:id="@+id/f_exo_error_tv"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:layout_gravity="center"
+      android:background="@android:color/white"
+      android:gravity="center"
+      android:padding="20dp"
+      android:textColor="@android:color/black"
+      android:textSize="12sp"
+      android:visibility="gone"
+      tools:text="Error"
+      tools:visibility="visible"
+  />
+  <!--progress bar-->
+  <ProgressBar
+      android:id="@+id/f_exo_progress_bar"
+      android:layout_width="80dp"
+      android:layout_height="80dp"
+      android:layout_centerInParent="true"
+      android:gravity="center"
+      android:visibility="gone"
+      tools:visibility="visible"
+  />
+</RelativeLayout>
